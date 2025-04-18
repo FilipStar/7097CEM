@@ -1,0 +1,150 @@
+<nav th:fragment="navbar">
+    <style>
+        nav {
+            background-color: #333;
+            padding: 10px 0;
+            text-align: center;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav ul {
+        	display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        nav ul li {
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+        	background: transparent;
+            text-decoration: none;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 15px;
+            transition: background 0.3s ease, color 0.3s ease;
+            border-radius: 5px;
+        }
+        
+        nav ul li a:hover {
+            background: white;
+    		color: black;
+        }
+        
+        nav ul li img {
+        	width: 45px;
+        	height: 45px;
+        	object-fit: cover;
+    		border-radius: 50%;
+    		
+        }
+        
+        nav ul li p {
+        	color: white;
+            font-size: 20px;
+            font-weight: bold;
+        }
+		
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            background: #222;
+            color: white;
+            min-width: 160px;
+            border-radius: 6px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            right: 0;
+    		left: auto; 
+        }
+		
+        .dropdown-content input {
+        	width: 100%;
+            display: block;
+            padding: 12px;
+            color: white;
+            text-decoration: none;
+            background: #222;
+            transition: background 0.3s;
+        }
+
+        .dropdown-content input:hover {
+            background: #444;
+        }
+
+        .dropdown img {
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            filter: invert(1);
+            transition: filter 0.3s, box-shadow 0.3s;
+        }
+        
+    </style>
+
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li th:if="${user.dtype == 'Employee'}"><a href="/employee/company">Find Companies</a></li>
+        <li th:if="${user.dtype == 'Employee'}"><a href="/employee/positions">Find Positions</a></li>
+        <li th:if="${user.dtype == 'Employer'}"><a href="/employer/company">Create Positions</a></li>
+        <li th:if="${user.dtype == 'Employer'}"><a href="/employer/applicants">View Applicants</a></li>
+    </ul>
+    
+    <ul>
+    	<li><p th:text="${user.firstName} + ' ' + ${user.lastName}"></p></li>
+    	<li th:if="${user.profilePicture != null and user.profilePicture != '' and user.profilePicture != 'path/path1'}"><img th:src="@{'/uploads/' + ${user.profilePicture}}"></li>
+    	<li th:if="${user.profilePicture == '' or user.profilePicture == null or user.profilePicture == 'path/path1'}"><img th:src="@{/images/default.png}"></li>
+    	<li>
+    		<div class="dropdown">
+		        <img src="https://cdn-icons-png.flaticon.com/512/126/126472.png" alt="Settings" onclick="toggleDropdown()">    
+		        <div class="dropdown-content" id="dropdownMenu">	
+		            <form th:if="${user.dtype == 'Employee'}" th:action="@{/employee/edit/{userId}(userId=${user.userId})}" method="post">
+		    			<input type="submit" value="Edit Employee"/>
+					</form>
+					<form th:if="${user.dtype == 'Employer'}" th:action="@{/employer/edit/{userId}(userId=${user.userId})}" method="post">
+		    			<input type="submit" value="Edit Employer"/>
+					</form>
+					<form th:if="${user.dtype == 'Employee'}" th:action="@{/employee/delete/{userId}(userId=${user.userId})}" method="post">
+		    			<input type="submit" value="Delete Employee" style="color: red;" th:onclick="return confirm('Are you sure you want to delete your Account?')"/>
+					</form>
+					<form th:if="${user.dtype == 'Employer'}" th:action="@{/employer/delete/{userId}(userId=${user.userId})}" method="post">
+		    			<input type="submit" value="Delete Employer" style="color: red;" th:onclick="return confirm('Are you sure you want to delete your Account?')"/>
+					</form>
+					<form th:action="@{/logout}" method="post">
+		    			<input type="submit" value="Logout" />
+					</form>
+		        </div>
+		    </div>
+    	</li>
+    </ul>
+    <script>
+        function toggleDropdown() {
+            var menu = document.getElementById("dropdownMenu");
+            menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+        }
+
+        // Hide dropdown when clicking outside
+        document.addEventListener("click", function(event) {
+            var dropdown = document.querySelector(".dropdown");
+            if (!dropdown.contains(event.target)) {
+                document.getElementById("dropdownMenu").style.display = "none";
+            }
+        });
+    </script>
+</nav>
+

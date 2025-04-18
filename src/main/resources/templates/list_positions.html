@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<title>Courses</title>
+<link rel="stylesheet" th:href="@{/css/list_positions_style.css}">
+</head>
+<body>
+	<div th:insert="fragments/navbar :: navbar"></div>
+	
+	<div class="filter-holder">
+		<form th:action="@{/employee/positions/filter}" th:object="${positionFilterDTO}" method="post" id="positionForm" name="positionForm" class="filter-form">
+			<div class="filters">
+				<input class="input salary-input" type="number" step="1" min="0" max="9999999" th:field="*{minSalary}" placeholder="Minimum Salary"/>
+				<input class="input salary-input" type="number" step="1" min="1" max="9999999" th:field="*{maxSalary}" placeholder="Maximum Salary"/>
+				<select class="select select-position" th:field="*{jobType}">
+					<option th:value="null" selected>Any Type</option>
+					<option th:value="Full-Time" th:field="*{jobType}">Full-Time</option>
+					<option th:value="Part-Time" th:field="*{jobType}">Part-Time</option>
+				</select> 
+			</div>
+			<div class="filters">
+				
+	                	<p>Start Hour:</p>
+						<input class="input" type="time" th:field="*{startHour}" placeholder="Start Hour"  />
+				    	<p>End Hour:</p>
+				    	<input class="input" type="time" th:field="*{endHour}" />
+	            
+	                
+				
+					    <p>Start Day:</p>
+					        <select class="select" th:field="*{startDay}">
+					        	<option th:value="null" selected>Any Day</option>
+					            <option th:each="day : ${T(java.time.DayOfWeek).values()}" 
+					                    th:value="${day}" 
+					                    th:text="${day}"></option>
+					        </select>
+					
+					
+					    <p>End Day:</p>
+					        <select class="select" th:field="*{endDay}">
+					        	<option th:value="null" selected>Any Day</option>
+					            <option th:each="day : ${T(java.time.DayOfWeek).values()}" 
+					                    th:value="${day}" 
+					                    th:text="${day}"></option>
+					        </select>
+				    	
+				
+			</div>
+			<button class="button grey-button" type="submit" form="positionForm">Filter</button>
+		</form>
+		
+	</div>
+	
+	<div class="content-container"> 
+		<div class="course-container" id="course-container">
+			<div th:each="position : ${positions}" class="course-box course-box-hover" th:onclick="openPosition([[${position.positionId}]],[[${position.name}]], [[${position.company.name}]], [[${position.description}]], [[${position.salary}]], [[${position.jobType}]], [[${position.address}]], [[${position.startHour}]], [[${position.endHour}]], [[${position.startDay}]], [[${position.endDay}]])">
+	            <div class="flex-row">
+	                <h2 th:text="${position.name}"></h2>
+	            </div>
+	            <p th:text="${position.description}"></p>
+	            <div class="difficulty-time-container">
+	            	<p th:text="${position.jobType}"></p>
+	                <p th:text="${position.salary} + ' $'"></p>
+	            </div>
+	        </div>
+		</div>
+	</div>
+	<div id="positionModal" class="modal">
+		  <div class="modal-content">
+			    <span class="close" onclick="closePositionModal()">&times;</span>
+			    <h2 id="positionTitle">Position Title</h2>
+			    <p><strong>Company:</strong> <span id="positionCompany">Company Name</span></p>
+			    <p><strong>Description:</strong> <span id="positionDescription">Position Description</span></p>
+			    <p><strong>Salary:</strong> <span id="positionSalary">50000</span></p>
+			    <p><strong>Job Type:</strong> <span id="positionJobType">Full-time</span></p>
+			    <p><strong>Address:</strong> <span id="positionAddress">123 Main St</span></p>
+			    <p><strong>Start Hour:</strong> <span id="positionStartHour">09:00</span></p>
+			    <p><strong>End Hour:</strong> <span id="positionEndHour">17:00</span></p>
+			    <p><strong>Start Day:</strong> <span id="positionStartDay">MONDAY</span></p>
+			    <p><strong>End Day:</strong> <span id="positionEndDay">FRIDAY</span></p>
+		  		<button id="applyButton" class="apply-btn">Apply</button>
+		  </div>
+	</div>
+</body>
+<script>
+    function openPosition(positionId, name, companyName, desc, salary, jobType, address, startHour, endHour, startDay, endDay) {
+    	  document.getElementById("positionTitle").textContent = name;
+    	  document.getElementById("positionCompany").textContent = companyName;
+    	  document.getElementById("positionDescription").textContent = desc;
+    	  document.getElementById("positionSalary").textContent = `$${salary}`;
+    	  document.getElementById("positionJobType").textContent = jobType;
+    	  document.getElementById("positionAddress").textContent = address;
+    	  document.getElementById("positionStartHour").textContent = startHour;
+    	  document.getElementById("positionEndHour").textContent = endHour;
+    	  document.getElementById("positionStartDay").textContent = startDay;
+    	  document.getElementById("positionEndDay").textContent = endDay;
+    	  
+    	  // Set the Apply button link
+    	  const applyButton = document.getElementById("applyButton");
+    	  applyButton.onclick = function () {
+    	    window.location.href = `/employee/apply/${positionId}`;
+    	  };
+    	  
+    	  // Show the modal
+    	  document.getElementById("positionModal").style.display = "block";
+    }
+    
+    function closePositionModal() {
+    	  document.getElementById("positionModal").style.display = "none";
+    	}
+</script>
+</html> 

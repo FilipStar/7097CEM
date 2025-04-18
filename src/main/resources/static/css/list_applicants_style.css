@@ -1,0 +1,15 @@
+.position-container {
+	display: flex;
+	flex-direction: column;
+	margin: 30px;
+	padding: 15px;
+	border: 1px solid #333;
+}
+
+.position-container h2 {
+	margin: 0;
+}
+
+.position-container p {
+	margin: 4px 0 0 0;
+}

@@ -1,0 +1,134 @@
+ <!DOCTYPE html>
+<html xmlns:th="http:/www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Prowork</title>
+    <style>
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-form-holder {
+    display: flex;
+    min-width: 25%;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #333;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.login-form-holder h1 {
+    width: 100%;
+    margin-bottom: 15px;
+    text-align: center;
+    margin-top: 0px;
+    color: #333;
+    border-bottom: 2px solid #D3D3D3;
+    padding-bottom: 15px;
+}
+
+.login-form-holder .flex-row {
+    margin-top: 20px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.input {
+    width: 90%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+    margin: 10px;
+}
+	
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.button {
+    background-color: #007BFF;
+    color: white;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+    </style>
+</head>
+<body>
+    <div class="login-form-holder">
+        <table>
+            <h1>Log In</h1>
+            <form th:action="@{/login}" method="post" class="form" id="loginForm">
+                <div class="flex-column">
+                    <input class="input" type="email" name="username" placeholder="Email" required/>
+                    <input class="input" type="password" name="password" placeholder="Password" required/>
+                </div>
+            </form>
+            <div class="flex-row">
+            	<button class="button" type="submit" value="Login" form="loginForm">Log In</button>
+            	<form th:action="@{/register/choice}" method="post">
+            		<button type="submit" class="button">Register</button>
+            	</form>
+            </div>
+        </table>
+    </div>
+</body>
+</html>
+<!--
+<!DOCTYPE html>
+<html xmlns:th="http:/www.thymeleaf.org">
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Login - XYZ</title>
+	<link rel="stylesheet" th:href="@{/css/course_style.css}">
+</head>
+<body>
+	<div>
+		<form th:action="@{/login}" method="post">
+		    <p>
+		        Username: <input type="username" name="username" required />
+		    </p>
+		    <p>
+		        Password: <input type="password" name="password" required />
+		    </p>
+		    <p>
+		        <input type="submit" value="Login" />
+		    </p>
+		</form>
+	</div>
+</body>
+</html> -->
+
+ 

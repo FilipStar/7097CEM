@@ -1,0 +1,17 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head> 
+    <title>ProWork</title>
+    <meta charset = "ISO-8859-1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+	<div th:insert="fragments/navbar :: navbar"></div>
+	<div align = "center">
+    	<h1>Welcome</h1>
+    	<form th:action="@{/logout}" method="post">
+		    <input type="submit" value="Logout" />
+		</form>
+	</div>
+</body>
+</html> 

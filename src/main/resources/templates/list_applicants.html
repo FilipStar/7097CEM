@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<title>Courses</title>
+<link rel="stylesheet" th:href="@{/css/list_applicants_style.css}">
+</head>
+<body>
+	<div th:insert="fragments/navbar :: navbar"></div>
+	<div class="position-container"> 
+		<div th:each="position : ${positions}">
+			<h2 th:text="'Position: ' + ${position.name}"></h2>
+			<ul>
+				<li th:each="employeePosition : ${position.employeePositions}">
+					<p th:text="'Applicant Email: ' + ${employeePosition.employee.email}"></p>
+				</li>
+			</ul>
+		</div>
+	</div>
+</body>
+
+</html> 
