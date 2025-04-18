@@ -6,4 +6,5 @@ import com.shamir.bookstore.model.Tag;
 
 public interface TagRepository  extends JpaRepository<Tag, Long>{
 
+	public Tag findByTagId(Long tagId);
 }

@@ -184,3 +184,11 @@ input {
 	width: 50%;
 }
 
+select[multiple] {
+  width: 80%;
+  height: 100px;
+  padding: 5px;
+  font-size: 14px;
+}
+
+

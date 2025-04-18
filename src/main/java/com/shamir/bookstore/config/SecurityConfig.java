@@ -39,6 +39,7 @@ public class SecurityConfig {
 	        .authorizeRequests()
 	        .mvcMatchers("/").hasAnyRole(USER)
 	        .mvcMatchers("/register/**").permitAll()
+	        .mvcMatchers("/user/**").hasRole(USER)
 	        .mvcMatchers("/browse/**").hasRole(USER)
 	        .mvcMatchers("/book/create/**").hasRole(USER)
 	        .anyRequest().authenticated()

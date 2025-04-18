@@ -46,6 +46,9 @@ public class Book {
 	@Column(name="price")
 	private Long price;
 	
+	@Column(name="book_cover")
+	private String bookCover;
+	
 	@OneToMany(mappedBy = "book", fetch = FetchType.EAGER)
     private List<BookTag> bookTag;
 
@@ -120,6 +123,13 @@ public class Book {
 	public void setBookTag(List<BookTag> bookTag) {
 		this.bookTag = bookTag;
 	}
-	
+
+	public String getBookCover() {
+		return bookCover;
+	}
+
+	public void setBookCover(String bookCover) {
+		this.bookCover = bookCover;
+	}
 	
 }

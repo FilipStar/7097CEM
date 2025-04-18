@@ -1,4 +1,8 @@
 
+.browse-container {
+	display:flex;
+	flex-direction: row;
+}
 
 .content-container {
     display: flex;
@@ -84,7 +88,7 @@
     font-size: 14px;
     font-weight: bold;
     border-radius: 5px;
-    color: white;
+    color: black;
 }
 
 .Begginer {
@@ -120,6 +124,7 @@
     flex-direction: column;
     align-content: space-between;
     justify-content: space-between;
+    align-self: center;
     width: 500px;
     background-color: white;
     border: 2px solid #333; /* Adds a proper border */
@@ -147,7 +152,7 @@
 
 .course img {
     height: auto;
-    width: 100px;
+    width: 100%;
     object-fit: cover;
     border-radius: 10px;
     align-self: center;
@@ -158,6 +163,14 @@
     margin-left: 20px;
     color: #333;
     flex-grow: 1;
+}
+
+.title-label {
+	font-size: 24px;
+    margin: 10px 0 10px 0;
+    color: #333;
+    flex-grow: 1;
+    max-height: 40px;
 }
 
 .course p {
@@ -276,10 +289,11 @@
 
 .filter-holder {
 	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 100%;
+	align-items: centre;
+	justify-content: flex-start;
+	width: 20%;
 	margin-top: 30px;
+	margin-left: 20px;
 }
 
 .filter-form {
@@ -292,10 +306,10 @@
 	border-radius: 20px;
 	font-family: Arial, sans-serif;
 	background-color: #f4f4f4;;
+	max-height: 300px;
 }
 
 input {
-    width: 90%;
     padding: 10px;
     font-size: 14px;
     border: 1px solid #ccc;
@@ -325,3 +339,22 @@ input {
     background-size: 14px 14px;
     background-position: calc(100% - 16px);
 }
+
+.cart {
+	display: none;
+	position: absolute;
+	justify-content: center;
+	flex-direction: column;
+	top: 20%;
+	right: 8%;
+	height: auto;
+	width: 150px;
+	background-color: black;
+	border: 1px solid #333;
+    border-radius: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    padding: 10px;
+	
+}
+

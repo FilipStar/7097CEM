@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<title>Courses</title>
+<link rel="stylesheet" th:href="@{/css/list_positions_style.css}">
+</head>
+<body>
+	<div th:insert="fragments/navbar :: navbar"></div>
+	<div class="browse-container">
+		<div class="filter-holder">
+			<form th:action="@{/book/filter}" method="get" id="positionForm" name="positionForm" class="filter-form">
+				<button class="button grey-button" type="submit" form="positionForm">Filter</button>
+				
+				<label class="title-label">Select Tags:</label><br/>
+			    <div th:each="tag : ${tags}" class="flex-row">
+			        <input type="checkbox" name="tagIds"
+			               th:value="${tag.tagId}"
+	               		   th:id="'tag_' + ${tag.tagId}" />
+	        		<label th:for="'tag_' + ${tag.tagId}" th:text="${tag.name}"></label><br/>
+	    		</div>
+				
+			</form>
+			
+		</div>
+		
+		<div class="content-container"> 
+			<div class="course-container" id="course-container">
+				<div th:each="book : ${books}" class="course-box course-box-hover" th:onclick="openBook([[${book.bookId}]], [[${book.title}]], [[${book.description}]], [[${book.author}]], [[${book.translator}]], [[${book.format}]], [[${book.price}]], [[${book.bookCover}]])">
+				
+		        
+		            <div>
+		                <img th:src="@{'/uploads/' + ${book.bookCover}}"  alt="Sample Image">
+		                <h2 th:text="${book.title}"></h2>
+		                <p th:text="${book.description}"></p>
+		                <p th:text="${book.author}"></p>
+		            </div>
+		           
+			</div>
+		</div>
+		<div class="course" id="book">
+	        <div class="close-button" onclick="closeBook()">&times;</div>
+	        <img alt="Course Image" class="course-image" id="course-image">
+	        <div class="course-details">
+	            <h2 class="course-title" id="course-title"></h2>
+	            <p class="course-description" id="course-description"></p>
+	            <div class="enroll-container">
+	                <div class="row">
+	                    <span class="difficulty" id="author"></span>
+	                    <span class="difficulty" id="translator"></span>
+	                    <span class="difficulty" id="format"></span>
+	                </div>
+	                <div class="row">
+	                    <p class="course-price" id="course-price"></p>
+	                    <input type="hidden" id="bookId">
+	                    <input type="hidden" id="price">
+	                    <input type="hidden" id="title">
+	                    <div id="form-container">
+							<button id="enroll-button" onclick="buyBook()" class="enroll-button">Buy</button>
+
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+	
+	<div class="cart" id="cart">
+		<div class="flex-row"> 
+			<h2 class="cart-price">Total: $</h2>
+			<h2 class="cart-price" id="cart-price"></h2>
+		</div>
+		
+		<ul id="book-list">
+		</ul>
+	</div>
+	
+</body>
+<script>
+	var price = 0;
+    function openBook(bookId, title, description, author, translator, format, price, bookCover) {
+    		document.getElementById("bookId").value = bookId;
+    		document.getElementById("course-image").src = "/uploads/" + bookCover;
+    		document.getElementById("course-title").innerText = title;
+    		document.getElementById("title").value = title;
+        	document.getElementById("course-description").innerText = description;
+        	document.getElementById("author").innerText = author;
+        	document.getElementById("translator").innerText = translator;
+        	document.getElementById("format").innerText = format;
+        	document.getElementById("course-price").innerText = "$" + price;
+        	document.getElementById("price").value = price;
+    	  
+    	  	// Show the modal
+    	  	document.getElementById("book").style.display = "block";
+    }
+    
+    function closeBook() {
+    	  document.getElementById("book").style.display = "none";
+    	}
+    
+    function buyBook () {
+    	console.log("test");
+		const list = document.getElementById("book-list");
+		var price = document.getElementById("cart-price");
+		var add_price = document.getElementById("price").value;
+		var title = document.getElementById("title").value;
+		var bookId = document.getElementById("bookId").value;
+    	
+		
+		price.innerText = +price.innerText + +add_price;
+		
+    	const li = document.createElement('li'); // Create a new list item
+        li.textContent = title;
+        list.appendChild(li); // Add it to the list
+    }
+    
+    function test() {
+    	console.log("test");
+    }
+    
+    function openCart() {
+    	const cart = document.getElementById("cart"); 
+    	if (cart.style.display == "none") {
+    		cart.style.display = "flex";
+    	}
+    	else {
+    		cart.style.display = "none";
+    	}
+    }
+</script>
+</html> 

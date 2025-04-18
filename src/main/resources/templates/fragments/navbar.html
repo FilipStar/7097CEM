@@ -95,35 +95,38 @@
             transition: filter 0.3s, box-shadow 0.3s;
         }
         
+        ul li img {
+        	width: 32px;
+            height: 32px;
+            cursor: pointer;
+            filter: invert(1);
+        }
+        
+        
     </style>
 
     <ul>
         <li><a href="/">Home</a></li>
-        <li th:if="${user.dtype == 'Employee'}"><a href="/employee/company">Find Companies</a></li>
-        <li th:if="${user.dtype == 'Employee'}"><a href="/employee/positions">Find Positions</a></li>
-        <li th:if="${user.dtype == 'Employer'}"><a href="/employer/company">Create Positions</a></li>
-        <li th:if="${user.dtype == 'Employer'}"><a href="/employer/applicants">View Applicants</a></li>
+        <li><a href="/book/browse">Find Books</a></li>
+        <li><a href="/book/new">Publish Books</a></li>
+        
     </ul>
     
     <ul>
     	<li><p th:text="${user.firstName} + ' ' + ${user.lastName}"></p></li>
     	<li th:if="${user.profilePicture != null and user.profilePicture != '' and user.profilePicture != 'path/path1'}"><img th:src="@{'/uploads/' + ${user.profilePicture}}"></li>
     	<li th:if="${user.profilePicture == '' or user.profilePicture == null or user.profilePicture == 'path/path1'}"><img th:src="@{/images/default.png}"></li>
+    	<li><img src="https://cdn-icons-png.flaticon.com/512/1413/1413908.png" onclick="openCart()"></li>
     	<li>
     		<div class="dropdown">
 		        <img src="https://cdn-icons-png.flaticon.com/512/126/126472.png" alt="Settings" onclick="toggleDropdown()">    
 		        <div class="dropdown-content" id="dropdownMenu">	
-		            <form th:if="${user.dtype == 'Employee'}" th:action="@{/employee/edit/{userId}(userId=${user.userId})}" method="post">
-		    			<input type="submit" value="Edit Employee"/>
+		            <form th:action="@{/user/edit/{userId}(userId=${user.userId})}" method="post">
+		    			<input type="submit" value="Edit Account Details"/>
 					</form>
-					<form th:if="${user.dtype == 'Employer'}" th:action="@{/employer/edit/{userId}(userId=${user.userId})}" method="post">
-		    			<input type="submit" value="Edit Employer"/>
-					</form>
-					<form th:if="${user.dtype == 'Employee'}" th:action="@{/employee/delete/{userId}(userId=${user.userId})}" method="post">
-		    			<input type="submit" value="Delete Employee" style="color: red;" th:onclick="return confirm('Are you sure you want to delete your Account?')"/>
-					</form>
-					<form th:if="${user.dtype == 'Employer'}" th:action="@{/employer/delete/{userId}(userId=${user.userId})}" method="post">
-		    			<input type="submit" value="Delete Employer" style="color: red;" th:onclick="return confirm('Are you sure you want to delete your Account?')"/>
+					
+					<form th:action="@{/user/delete/{userId}(userId=${user.userId})}" method="post">
+		    			<input type="submit" value="Delete Account" style="color: red;" th:onclick="return confirm('Are you sure you want to delete your Account?')"/>
 					</form>
 					<form th:action="@{/logout}" method="post">
 		    			<input type="submit" value="Logout" />
