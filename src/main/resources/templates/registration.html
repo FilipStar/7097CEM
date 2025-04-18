@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="utf-8" />
+	<title>User Registration</title>
+<style>
+.form-holder {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 10px;
+    border: 2px solid #333;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.form h1 {
+    margin-bottom: 15px;
+    margin-top: 0px;
+    color: #333;
+    border-bottom: 2px solid #D3D3D3;
+    padding-bottom: 15px;
+    text-align: center;
+    width: 100%;
+}
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    width: 90%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    transition: border-color 0.3s ease;
+    margin: 10px;
+}
+
+.input-file {
+    font-weight: bold;
+    color: dodgerblue;
+    padding: 0.5em;
+    border: thin solid #D3D3D3;
+    border-radius: 3px;
+    margin: 10px;
+    max-width: 50%;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 98%;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.button {
+    background-color: #007BFF;
+    font-family: Arial, Helvetica, sans-serif;
+    color: white;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+</style>
+</head>
+<body>
+    <div class="form-holder">
+            <form th:if="${user.userId == 0}" enctype="multipart/form-data" action="#" th:action="@{/register/save}" 
+            th:object="${user}" name="register-form" id="register-form" method="post" class="form">
+				<h1>Register New User</h1>
+				
+				<div th:if="${#fields.hasAnyErrors()}">
+					<ul>
+						<li th:each="err : ${#fields.allErrors()}" th:text="${err}" style="color:red;"/>
+					</ul>
+				</div>
+                <div class="flex-column">
+                    <input type="email" size="64" maxlength="256" th:field="*{email}" placeholder="Email" required/> 
+                </div>
+                <div class="flex-row">
+                    <input type="text" minlength="2" maxlength="20" th:field="*{firstName}" placeholder="First Name" required/>
+                    <input type="text" minlength="2" maxlength="20" th:field="*{lastName}" placeholder="Last Name" required/>
+                </div>
+                <div class="flex-column"> 
+                    <input type="password" minlength="8" maxlength="50" th:field="*{password}" placeholder="Password" required/>
+                    <div class="flex-row">
+                        <label>Profile Picture: </label>
+                        <input id="employee-input-file" class="input-file" type="file" name="file" accept="image/*" />
+                        <!--<input class="input-file" id="student-input-file" type="file" name="file" th:field="*{profilePicture}" placeholder="Profile Picture" accept="image/*"/>-->
+                    </div>
+                </div>
+            </form>
+            <div th:if="${user.userId == 0}" class="flex-row">
+		    		<a th:href="@{/login}" class="button">Back</a>
+                    <button class="button" type="submit" form="register-form">Register</button>
+            </div>
+            
+            <form th:if="${user.userId != 0}" enctype="multipart/form-data" action="#" th:action="@{/user/update/{userId}(userId=${user.userId})}" 
+            th:object="${user}" name="register-form" id="register-form" method="post" class="form">
+				<h1>Update User Details</h1>
+				<div th:if="${#fields.hasAnyErrors()}">
+					<ul>
+						<li th:each="err : ${#fields.allErrors()}" th:text="${err}" style="color:red;"/>
+					</ul>
+				</div>
+                <div class="flex-column">
+                    <input type="email" size="64" maxlength="256" th:field="*{email}" placeholder="Email" required/> 
+                </div>
+                <div class="flex-row">
+                    <input type="text" minlength="2" maxlength="20" th:field="*{firstName}" placeholder="First Name" required/>
+                    <input type="text" minlength="2" maxlength="20" th:field="*{lastName}" placeholder="Last Name" required/>
+                </div>
+                <div class="flex-column"> 
+                    <input type="password" minlength="8" maxlength="50" th:field="*{password}" placeholder="Password (Disabled)" disabled required/>
+                    <div class="flex-row">
+                        <label>Profile Picture: </label>
+                        <input id="employee-input-file" class="input-file" type="file" name="file" accept="image/*" />
+                        <!--<input class="input-file" id="student-input-file" type="file" name="file" th:field="*{profilePicture}" placeholder="Profile Picture" accept="image/*"/>-->
+                    </div>
+                </div>
+            </form>
+            <div th:if="${user.userId != 0}" class="flex-row">
+                    <button class="button" type="submit" form="register-form">Update</button>
+            </div>
+            
+    </div>
+</body>
+</html> 
